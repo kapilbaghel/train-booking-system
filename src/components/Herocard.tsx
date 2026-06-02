@@ -65,7 +65,7 @@ export default function InfoCard() {
 
            <div className="relative w-full h-[460px] md:h-[560px] rounded-2xl overflow-hidden border border-white/10  shadow-[0_0_80px_rgba(249,115,22,0.25)]">
 <Image
-  src="/train.png"
+  src="/routes/train.png"
   alt="Train Booking"
   fill
   priority
