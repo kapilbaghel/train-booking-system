@@ -92,7 +92,7 @@ export default function PopularRoutes() {
               onClick={()=> router.push(`/trains?from=${route.from}&to=${route.to}`)}
               className="group relative overflow-hidden rounded-3xl cursor-pointer border border-white/10 bg-white/5 backdrop-blur-xl p-7 transition-all duration-500 hover:border-orange-500/50 hover:-translate-y-2 hover:shadow-[0_0_40px_rgba(255,115,0,0.18)]"
             >
-<Image src={route.image} alt={`Route from ${route.from} to ${route.to}`} fill priority className="object-cover" />
+<Image src={route.image} alt={`Route from ${route.from} to ${route.to}`} fill priority sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw" className="object-cover" />
               {/* CARD GLOW */}
               <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-500 bg-gradient-to-br from-orange-500/10 via-transparent to-transparent" />
 

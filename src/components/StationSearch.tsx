@@ -47,6 +47,8 @@ export default function StationSearch() {
     };
   });
 
+
+
   const searchTrains = () => {
     if (!fromCode || !toCode || !date) {
       alert("Select stations and date");
@@ -214,8 +216,8 @@ export default function StationSearch() {
 
           {/* DATE */}
           {/* DATE */}
-<div className="col-span-1 md:col-span-4 mt-4 overflow-x-auto">
-  <div className="flex gap-4 overflow-x-auto pb-2">
+<div className="col-span-1 md:col-span-4 mt-4">
+<div className="grid grid-cols-3 gap-3 md:flex md:flex-wrap">
 
     {!isCustomDate &&
       nextFiveDates.map((item) => (
@@ -225,11 +227,11 @@ export default function StationSearch() {
             setDate(item.fullDate);
             setIsCustomDate(false);
           }}
-          className={`min-w-[90px] px-6 py-3 rounded-lg text-xs text-center cursor-pointer border transition ${
-            date === item.fullDate
-              ? "bg-orange-600 text-black border-orange-500"
-              : "bg-white/5 text-gray-300 border-white/10 hover:border-orange-500/50"
-          }`}
+          className={`h-[60px] w-full md:w-[90px] flex flex-col items-center justify-center rounded-lg text-xs text-center cursor-pointer border transition ${
+  date === item.fullDate
+    ? "bg-orange-600 text-black border-orange-500"
+    : "bg-white/5 text-gray-300 border-white/10 hover:border-orange-500/50"
+}`}
         >
           <div>{item.day}</div>
           <div className="font-bold">{item.number}</div>
@@ -237,16 +239,33 @@ export default function StationSearch() {
         </div>
       ))}
 
-    <input
-      type="date"
-      value={date}
-      onChange={(e) => {
-        setDate(e.target.value);
-        setIsCustomDate(true);
-      }}
-      className="px-4 py-3 h-[60px] rounded-xl border border-orange-500 bg-orange-600 text-black outline-none hover:border-white transition duration-300"
-    />
+    <div
+  onClick={() =>
+    (
+      document.getElementById("customDate") as HTMLInputElement
+    )?.showPicker()
+  }
+  className="h-[60px] w-full md:w-[120px] rounded-lg border border-orange-500 bg-white/5 flex flex-col justify-center items-center cursor-pointer hover:bg-orange-500/10 transition"
+>
+  <CalendarDays className="w-4 h-4 text-orange-500 mt-[2px]" />
 
+  <span className="text-xs text-white mt-[5px]">
+    {isCustomDate && date
+      ? new Date(date).toLocaleDateString("en-IN")
+      : "Select Date"}
+  </span>
+</div>
+
+<input
+  id="customDate"
+  type="date"
+  value={date}
+  onChange={(e) => {
+    setDate(e.target.value);
+    setIsCustomDate(true);
+  }}
+  className="hidden"
+/>
   </div>
 </div>
 
