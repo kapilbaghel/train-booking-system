@@ -214,8 +214,8 @@ export default function StationSearch() {
 
           {/* DATE */}
           {/* DATE */}
-<div className="col-span-1 md:col-span-4 mt-4">
-  <div className="flex flex-wrap md:flex-nowrap items-center gap-4">
+<div className="col-span-1 md:col-span-4 mt-4 overflow-x-auto">
+  <div className="flex gap-4 overflow-x-auto pb-2">
 
     {!isCustomDate &&
       nextFiveDates.map((item) => (

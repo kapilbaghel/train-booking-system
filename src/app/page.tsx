@@ -9,7 +9,7 @@ export default function Home(){
 
 
   return(
-    <div className="bg-black min-h-screen">
+    <div className="bg-black min-h-screen overflow-x-hidden">
       <Navbar/>
       <InfoCard/>
       <StationSearch/>
