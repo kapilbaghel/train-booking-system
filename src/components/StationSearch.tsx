@@ -57,6 +57,7 @@ export default function StationSearch() {
   };
 
   const fetchStations = async (value: string) => {
+    console.log("typing", value);
     setFromCity(value);
 
     if (!value) {
@@ -66,6 +67,7 @@ export default function StationSearch() {
 
     const res = await fetch(`/api/station?query=${value}`);
     const data = await res.json();
+    console.log("data" , data);
 
     setStations(data);
   };
@@ -116,7 +118,7 @@ export default function StationSearch() {
         </div>
 
         {/* GRID */}
-        <div className="grid md:grid-cols-5 gap-6 items-center">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 items-center">
 
           {/* FROM */}
           <div className="relative">
@@ -198,67 +200,57 @@ export default function StationSearch() {
             )}
           </div>
 
-          {/* DATE */}
-          <div className="flex flex-col gap-3">
-
-            <div className="flex gap-2 flex-wrap">
-
-              {!isCustomDate &&
-                nextFiveDates.map((item) => (
-                  <div
-                    key={item.fullDate}
-                    onClick={() => {
-                      setDate(item.fullDate);
-                      setIsCustomDate(false);
-                    }}
-                    className={`px-3 py-2 rounded-lg text-xs text-center cursor-pointer border transition ${
-                      date === item.fullDate
-                        ? "bg-orange-600 text-black border-orange-500"
-                        : "bg-white/5 text-gray-300 border-white/10 hover:border-orange-500/50"
-                    }`}
-                  >
-                    <div>{item.day}</div>
-
-                    <div className="font-bold">
-                      {item.number}
-                    </div>
-
-                    <div>{item.month}</div>
-                  </div>
-                ))}
-
-            </div>
-
-            {/* DATE PICKER */}
-            <div className="relative border border-white/10 hover:border-orange-500 rounded-xl overflow-hidden">
-
-              <div className="absolute inset-0 flex items-center justify-center text-orange-500 pointer-events-none">
-                <CalendarDays />
-              </div>
-
-              <input
-                type="date"
-                value={date}
-                onChange={(e) => {
-                  setDate(e.target.value);
-                  setIsCustomDate(true);
-                }}
-                className="w-full opacity-0 cursor-pointer py-3"
-              />
-
-            </div>
-          </div>
-
+          
           {/* SEARCH BUTTON */}
           <div className="flex items-end">
             <button
               onClick={searchTrains}
-              className="w-full bg-gradient-to-r from-orange-500 to-orange-600 text-black font-semibold py-3 rounded-xl hover:scale-105 active:scale-95 transition shadow-lg shadow-orange-500/20 flex items-center justify-center gap-2"
+              className="w-full bg-gradient-to-r from-orange-500 to-orange-600 text-black font-semibold py-3 rounded-xl hover:scale-105 active:scale-95 transition shadow-lg shadow-orange-500/20 flex items-center justify-center gap-2 mt-6"
             >
               <Train className="w-5 h-5" />
               Search
             </button>
           </div>
+
+          {/* DATE */}
+          {/* DATE */}
+<div className="col-span-1 md:col-span-4 mt-4">
+  <div className="flex flex-wrap md:flex-nowrap items-center gap-4">
+
+    {!isCustomDate &&
+      nextFiveDates.map((item) => (
+        <div
+          key={item.fullDate}
+          onClick={() => {
+            setDate(item.fullDate);
+            setIsCustomDate(false);
+          }}
+          className={`min-w-[90px] px-6 py-3 rounded-lg text-xs text-center cursor-pointer border transition ${
+            date === item.fullDate
+              ? "bg-orange-600 text-black border-orange-500"
+              : "bg-white/5 text-gray-300 border-white/10 hover:border-orange-500/50"
+          }`}
+        >
+          <div>{item.day}</div>
+          <div className="font-bold">{item.number}</div>
+          <div>{item.month}</div>
+        </div>
+      ))}
+
+    <input
+      type="date"
+      value={date}
+      onChange={(e) => {
+        setDate(e.target.value);
+        setIsCustomDate(true);
+      }}
+      className="px-4 py-3 h-[60px] rounded-xl border border-orange-500 bg-orange-600 text-black outline-none hover:border-white transition duration-300"
+    />
+
+  </div>
+</div>
+
+
 
         </div>
       </div>

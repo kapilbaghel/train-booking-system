@@ -1,4 +1,8 @@
+
 "use client";
+import {useRouter} from "next/navigation";
+
+
 import Image from "next/image";
 import {
   ArrowRight,
@@ -53,6 +57,7 @@ const routes = [
 ];
 
 export default function PopularRoutes() {
+  const router = useRouter();
   return (
     <section className="relative w-full py-20 px-6 bg-black overflow-hidden">
 
@@ -84,7 +89,8 @@ export default function PopularRoutes() {
           {routes.map((route, index) => (
             <div
               key={index}
-              className="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl p-7 transition-all duration-500 hover:border-orange-500/50 hover:-translate-y-2 hover:shadow-[0_0_40px_rgba(255,115,0,0.18)]"
+              onClick={()=> router.push(`/trains?from=${route.from}&to=${route.to}`)}
+              className="group relative overflow-hidden rounded-3xl cursor-pointer border border-white/10 bg-white/5 backdrop-blur-xl p-7 transition-all duration-500 hover:border-orange-500/50 hover:-translate-y-2 hover:shadow-[0_0_40px_rgba(255,115,0,0.18)]"
             >
 <Image src={route.image} alt={`Route from ${route.from} to ${route.to}`} fill priority className="object-cover" />
               {/* CARD GLOW */}
@@ -108,16 +114,16 @@ export default function PopularRoutes() {
                   </div>
                 </div>
 
-                <div className="w-3 h-3 rounded-full bg-orange-500 shadow-lg shadow-orange-500/70" />
+                {/* <div className="w-3 h-3 rounded-full bg-orange-500 shadow-lg shadow-orange-500/70" /> */}
               </div>
 
               {/* ROUTE */}
               <div className="flex items-center justify-between mt-10 relative z-10">
 
                 <div>
-                  <p className="text-gray-500 text-sm mb-1">
+                  {/* <p className="text-gray-500 text-sm mb-1">
                     From
-                  </p>
+                  </p> */}
 
                   <h2 className="text-3xl font-bold text-white">
                     {route.from}
@@ -127,9 +133,9 @@ export default function PopularRoutes() {
                 <ArrowRight className="text-orange-500 w-8 h-8 mt-5" />
 
                 <div className="text-right">
-                  <p className="text-gray-500 text-sm mb-1">
+                  {/* <p className="text-gray-500 text-sm mb-1">
                     To
-                  </p>
+                  </p> */}
 
                   <h2 className="text-3xl font-bold text-white">
                     {route.to}

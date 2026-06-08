@@ -37,9 +37,8 @@ export default function LoginPage() {
       }
 
       setMessage("Login Successful ✅");
-      
-      router.replace("/");
 
+      router.replace("/");
     } catch (error) {
       console.error(error);
       setMessage("Something went wrong");
@@ -49,15 +48,21 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
-      <div className="w-full max-w-md bg-white shadow-lg rounded-xl p-8">
-        <h1 className="text-3xl font-bold text-center mb-6">
-          Login
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-black via-zinc-950 to-black px-4">
+      <div className="w-full max-w-md bg-zinc-900/90 backdrop-blur-md border border-orange-500/20 rounded-2xl p-8 shadow-[0_0_40px_rgba(249,115,22,0.15)]">
+
+        <h1 className="text-3xl font-bold text-center text-orange-500 mb-2">
+          Welcome Back
         </h1>
 
+        <p className="text-center text-gray-400 mb-6">
+          Login to continue your journey 🚆
+        </p>
+
         <form onSubmit={handleLogin} className="space-y-4">
+
           <div>
-            <label className="block mb-1 font-medium">
+            <label className="block mb-2 text-gray-300 font-medium">
               Email
             </label>
 
@@ -66,13 +71,13 @@ export default function LoginPage() {
               placeholder="Enter your email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full border rounded-lg p-3 outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full bg-zinc-800 text-white border border-zinc-700 rounded-lg p-3 outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/30 placeholder:text-gray-500"
               required
             />
           </div>
 
           <div>
-            <label className="block mb-1 font-medium">
+            <label className="block mb-2 text-gray-300 font-medium">
               Password
             </label>
 
@@ -83,7 +88,7 @@ export default function LoginPage() {
               onChange={(e) =>
                 setPassword(e.target.value)
               }
-              className="w-full border rounded-lg p-3 outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full bg-zinc-800 text-white border border-zinc-700 rounded-lg p-3 outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/30 placeholder:text-gray-500"
               required
             />
           </div>
@@ -94,7 +99,7 @@ export default function LoginPage() {
               onClick={() =>
                 router.push("/forgot-password")
               }
-              className="text-blue-600 hover:underline"
+              className="text-orange-500 hover:text-orange-400 transition"
             >
               Forgot Password?
             </button>
@@ -103,29 +108,36 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition"
+            className="w-full bg-orange-500 text-black font-semibold py-3 rounded-lg hover:bg-orange-400 transition-all duration-300 disabled:opacity-50"
           >
             {loading ? "Logging in..." : "Login"}
           </button>
 
           {message && (
-            <p className="text-center text-sm mt-3">
+            <p
+              className={`text-center text-sm mt-3 ${
+                message.includes("Successful")
+                  ? "text-green-400"
+                  : "text-red-400"
+              }`}
+            >
               {message}
             </p>
           )}
         </form>
 
-        <div className="mt-6 text-center">
+        <div className="mt-6 text-center text-gray-400">
           <p>
             Don't have an account?{" "}
             <button
               onClick={() => router.push("/signup")}
-              className="text-blue-600 hover:underline"
+              className="text-orange-500 hover:text-orange-400 font-medium transition"
             >
               Sign Up
             </button>
           </p>
         </div>
+
       </div>
     </div>
   );

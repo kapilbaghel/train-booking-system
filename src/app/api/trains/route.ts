@@ -9,7 +9,7 @@ export async function GET(req: NextRequest) {
 
   const from = searchParams.get("from");
   const to = searchParams.get("to");
-  const date = searchParams.get("date");
+ const date = searchParams.get("date") || new Date().toISOString().split("T")[0];
 
   try {
 

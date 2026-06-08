@@ -21,6 +21,11 @@ export default function TrainsContent() {
   const to = searchParams.get("to");
   const date = searchParams.get("date");
 
+  console.log("FROM",from);
+  console.log("TO",to);
+  console.log("DATE",date);
+
+
   const [trains, setTrains] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 

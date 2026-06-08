@@ -54,7 +54,6 @@ export default function SignupPage() {
         password: "",
       });
 
-      // Login page par redirect
       router.replace("/login");
     } catch (error) {
       console.error("Signup Error:", error);
@@ -65,13 +64,19 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
-      <div className="w-full max-w-md bg-white p-8 rounded-xl shadow-lg">
-        <h1 className="text-3xl font-bold text-center mb-6">
+    <div className="min-h-screen flex items-center justify-center bg-black px-4">
+      <div className="w-full max-w-md bg-zinc-900 border border-orange-500/20 p-8 rounded-2xl shadow-2xl">
+
+        <h1 className="text-3xl font-bold text-center mb-2 text-orange-500">
           Create Account
         </h1>
 
+        <p className="text-center text-gray-400 mb-6">
+          Join us and start your journey today 🚆
+        </p>
+
         <form onSubmit={handleSubmit} className="space-y-4">
+
           <input
             type="text"
             name="name"
@@ -79,7 +84,7 @@ export default function SignupPage() {
             value={formData.name}
             onChange={handleChange}
             required
-            className="w-full border border-gray-300 p-3 rounded-lg outline-none focus:ring-2 focus:ring-black"
+            className="w-full bg-zinc-800 text-white border border-zinc-700 p-3 rounded-lg outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/30 placeholder:text-gray-500"
           />
 
           <input
@@ -89,7 +94,7 @@ export default function SignupPage() {
             value={formData.email}
             onChange={handleChange}
             required
-            className="w-full border border-gray-300 p-3 rounded-lg outline-none focus:ring-2 focus:ring-black"
+            className="w-full bg-zinc-800 text-white border border-zinc-700 p-3 rounded-lg outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/30 placeholder:text-gray-500"
           />
 
           <input
@@ -99,27 +104,29 @@ export default function SignupPage() {
             value={formData.password}
             onChange={handleChange}
             required
-            className="w-full border border-gray-300 p-3 rounded-lg outline-none focus:ring-2 focus:ring-black"
+            className="w-full bg-zinc-800 text-white border border-zinc-700 p-3 rounded-lg outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/30 placeholder:text-gray-500"
           />
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-black text-white p-3 rounded-lg hover:bg-gray-800 transition disabled:opacity-50"
+            className="w-full bg-orange-500 text-black font-semibold p-3 rounded-lg hover:bg-orange-400 transition-all duration-300 disabled:opacity-50"
           >
             {loading ? "Creating Account..." : "Sign Up"}
           </button>
+
         </form>
 
-        <p className="text-center mt-4 text-sm">
+        <p className="text-center mt-6 text-sm text-gray-400">
           Already have an account?{" "}
           <button
             onClick={() => router.push("/login")}
-            className="text-blue-600 hover:underline"
+            className="text-orange-500 hover:text-orange-400 font-medium transition"
           >
             Login
           </button>
         </p>
+
       </div>
     </div>
   );
