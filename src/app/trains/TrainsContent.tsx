@@ -28,6 +28,7 @@ export default function TrainsContent() {
 
   const [trains, setTrains] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedClass,setSelectedClass] = useState<{[key:string]:string;}>({});
 
   useEffect(() => {
 
@@ -332,18 +333,45 @@ export default function TrainsContent() {
             {/* CLASSES */}
             <div className="mt-10 flex flex-wrap gap-3">
 
-              {train.classes.map((item: string, i: number) => (
+{train.classes.map((item: string, i: number) => (
 
-                <div
-                  key={i}
-                  className="px-3 sm:px-5 py-2 rounded-xl border border-orange-500/30 bg-orange-500/10 text-orange-400 text-sm font-medium hover:bg-orange-500 hover:text-black transition-all duration-300 cursor-pointer"
-                >
-                  {item}
-                </div>
+  <button
+    key={i}
+    onClick={() =>
+      setSelectedClass((prev) => ({
+        ...prev,
+        [train.trainNumber]: item,
+      }))
+    }
+    className={`px-3 sm:px-5 py-2 rounded-xl border text-sm font-medium transition-all duration-300 cursor-pointer ${
+      selectedClass[train.trainNumber] === item
+        ? "bg-orange-500 text-black border-orange-500"
+        : "border-orange-500/30 bg-orange-500/10 text-orange-400 hover:bg-orange-500 hover:text-black"
+    }`}
+  >
+    {item}
+  </button>
 
-              ))}
+))}           
+ </div>
 
-            </div>
+{/* CONTINUE BUTTON */}
+
+ <button
+    disabled={!selectedClass[train.trainNumber]}
+    onClick={() =>
+      router.push(
+        `/train-details?trainNumber=${train.trainNumber}&trainName=${train.trainName}&source=${train.source}&destination=${train.destination}&departure=${train.departure}&arrival=${train.arrival}&class=${selectedClass[train.trainNumber]}`
+      )
+    }
+    className={`px-16 py-2 rounded-xl font-semibold transition  ${
+      selectedClass[train.trainNumber]
+        ? "bg-orange-500 text-black hover:bg-orange-600"
+        : "bg-gray-700 text-gray-400 cursor-not-allowed"
+    }`}
+  >
+    Continue
+  </button>
 
           </div>
 
