@@ -59,7 +59,9 @@ const routes = [
 export default function PopularRoutes() {
   const router = useRouter();
   return (
-    <section className="relative w-full py-20 px-6 bg-black overflow-hidden">
+    <section 
+    id="popular-routes"
+    className="relative w-full py-20 px-6 bg-black overflow-hidden">
 
       {/* ORANGE GLOW */}
       <div className="absolute top-0 left-0 w-[400px] h-[400px] bg-orange-500/10 blur-[120px] rounded-full -z-10" />

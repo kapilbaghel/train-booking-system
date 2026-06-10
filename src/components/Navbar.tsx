@@ -2,19 +2,33 @@
 
 import Link from "next/link";
 import { Train, Search, Menu, X } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import LogoutButton from "@/app/logout/page";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const res = await fetch("/api/isloggedIn");
+        const data = await res.json();
+        console.log("loggedIn:", data.LoggedIn);
+        setIsLoggedIn(data.LoggedIn);
+      } catch (error) {
+        console.error("Error checking auth:", error);
+      }
+    };
+    checkAuth();
+  }, []);
 
   const navItems = ["Home", "Trains", "Bookings", "Support"];
 
   return (
     <header className="sticky top-0 z-50 w-full bg-black/80 backdrop-blur-md border-b border-white/10">
-
       {/* TOP BAR */}
       <div className="w-full flex items-center justify-between px-6 md:px-10 lg:px-16 py-4">
-
         {/* LEFT LOGO */}
         <div className="flex items-center gap-4">
           <div className="w-11 h-11 rounded-xl bg-orange-500/10 border border-orange-500/30 flex items-center justify-center">
@@ -46,7 +60,6 @@ export default function Header() {
 
         {/* RIGHT SECTION */}
         <div className="flex items-center gap-4">
-
           {/* SEARCH (desktop only) */}
           <div className="hidden md:flex items-center bg-white/5 px-4 py-2.5 rounded-full border border-white/10 focus-within:border-orange-500/50 transition">
             <Search className="w-4 h-4 text-orange-500" />
@@ -57,12 +70,18 @@ export default function Header() {
           </div>
 
           {/* SIGN UP (desktop only) */}
-          <Link
-            href="/signup"
-            className="hidden md:flex bg-gradient-to-r from-orange-500 to-orange-600 text-black font-semibold px-6 py-2.5 rounded-full shadow-lg shadow-orange-500/20 hover:scale-105 active:scale-95 transition"
-          >
-            Sign Up
-          </Link>
+          {!isLoggedIn ? (
+            <Link
+              href="/signup"
+              className="hidden md:flex bg-gradient-to-r from-orange-500 to-orange-600 text-black font-semibold px-6 py-2.5 rounded-full shadow-lg shadow-orange-500/20 hover:scale-105 active:scale-95 transition"
+            >
+              Sign Up
+            </Link>
+          ) : (
+            <div className="hidden md:flex">
+              <LogoutButton />
+            </div>
+          )}
 
           {/* BOOK NOW (desktop only) */}
           <button className="hidden md:flex bg-gradient-to-r from-orange-500 to-orange-600 text-black font-semibold px-6 py-2.5 rounded-full shadow-lg shadow-orange-500/20 hover:scale-105 active:scale-95 transition">
@@ -76,14 +95,12 @@ export default function Header() {
           >
             {open ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
-
         </div>
       </div>
 
       {/* MOBILE MENU */}
       {open && (
         <div className="md:hidden px-6 pb-5 border-t border-white/10 bg-black/90">
-
           {/* NAV LINKS */}
           <div className="flex flex-col gap-4 mt-4">
             {navItems.map((item) => (
@@ -109,19 +126,21 @@ export default function Header() {
 
           {/* BUTTONS MOBILE */}
           <div className="flex flex-col gap-3 mt-5">
-
-            <Link
-              href="/signup"
-              onClick={() => setOpen(false)}
-              className="bg-orange-500 text-black font-semibold px-4 py-2 rounded-full text-center"
-            >
-              Sign Up
-            </Link>
+            {!isLoggedIn ? (
+              <Link
+                href="/signup"
+                onClick={() => setOpen(false)}
+                className="bg-orange-600 text-black font-semibold px-4 py-2 rounded-full text-center"
+              >
+                Sign Up
+              </Link>
+            ) : (
+              <LogoutButton />
+            )}
 
             <button className="bg-orange-600 text-black font-semibold px-4 py-2 rounded-full">
               Book Now
             </button>
-
           </div>
         </div>
       )}

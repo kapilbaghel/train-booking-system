@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowLeftRight, CalendarDays, Train } from "lucide-react";
+import { ArrowLeftRight,ArrowUpDown ,CalendarDays, Train } from "lucide-react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
@@ -120,7 +120,7 @@ export default function StationSearch() {
         </div>
 
         {/* GRID */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 items-center">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-3 md:gap-6 items-center">
 
           {/* FROM */}
           <div className="relative">
@@ -158,13 +158,19 @@ export default function StationSearch() {
           </div>
 
           {/* SWAP */}
-          <div className="flex justify-center">
-            <button
-              onClick={swapStations}
-              className="p-3 rounded-full border border-orange-500/30 text-orange-500 hover:bg-orange-500/10 transition mt-6"
-            >
-              <ArrowLeftRight />
-            </button>
+          <div className="flex justify-center -my-1 md:my-0">
+           <button
+  onClick={swapStations}
+  className="p-3 rounded-full border border-orange-500/30 text-orange-500 hover:bg-orange-500/10 transition mt-4 md:mt-6"
+>
+  <span className="block md:hidden">
+    <ArrowUpDown />
+  </span>
+
+  <span className="hidden md:block">
+    <ArrowLeftRight />
+  </span>
+</button>
           </div>
 
           {/* TO */}
@@ -178,7 +184,7 @@ export default function StationSearch() {
               title={toCity}
               onChange={(e) => fetchToStations(e.target.value)}
               placeholder="Enter station"
-              className="w-full truncate bg-white/5 border border-white/10 focus:border-orange-500/50 outline-none text-white px-4 py-3 rounded-xl"
+              className="w-full truncate bg-white/5 border border-white/10 focus:border-orange-500/50 outline-none text-white px-3 md:px-4 py-2.5 md:py-3 rounded-xl"
             />
 
             {toStations.length > 0 && (

@@ -49,7 +49,9 @@ export default function InfoCard() {
 
             {/* BUTTONS */}
             <div className="flex items-center gap-4 mt-2">
-              <button className="px-7 py-3 rounded-full font-semibold text-black bg-gradient-to-r from-orange-500 to-orange-600 hover:scale-105 active:scale-95 transition shadow-lg shadow-orange-500/20">
+              <button 
+              onClick={()=>document.getElementById("popular-routes")?.scrollIntoView({behavior:"smooth", block:"start"})}
+              className="px-7 py-3 rounded-full font-semibold text-black bg-gradient-to-r from-orange-500 to-orange-600 hover:scale-105 active:scale-95 transition shadow-lg shadow-orange-500/20">
                 Explore Trains →
               </button>
 
