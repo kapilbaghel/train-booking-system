@@ -279,25 +279,23 @@ onClick={async () => {
 
   const data = await res.json();
 
-  const trainUrl =
-    `/train-details?trainNumber=${train.trainNumber}` +
-    `&trainName=${train.trainName}` +
-    `&source=${train.source}` +
-    `&sourceName=${train.source_name}` +
-    `&destination=${train.destination}` +
-    `&destinationName=${train.destination_name}` +
-    `&departure=${train.departure}` +
-    `&arrival=${train.arrival}` +
-    `&class=${selectedClass[train.trainNumber]}`;
-
+  const passengerUrl =
+  `/passenger-details?trainNumber=${train.trainNumber}` +
+  `&trainName=${encodeURIComponent(train.trainName)}` +
+  `&source=${train.source}` +
+  `&destination=${train.destination}` +
+  `&departure=${train.departure}` +
+  `&arrival=${train.arrival}` +
+  `&classType=${selectedClass[train.trainNumber]}`;
+  
   if (!data.authenticated) {
     router.push(
-      `/signup?redirect=${encodeURIComponent(trainUrl)}`
+      `/signup?redirect=${encodeURIComponent(passengerUrl)}`
     );
     return;
   }
 
-  router.push(trainUrl);
+  router.push(passengerUrl);
 }}
               className={`px-16 py-2 rounded-xl font-semibold transition ml-25 ${
                 selectedClass[train.trainNumber]

@@ -10,9 +10,14 @@ export default function Home(){
 
   return(
     <div className="bg-black min-h-screen overflow-x-hidden">
+
       <Navbar/>
       <InfoCard/>
+
+      <div id="station-search">
       <StationSearch/>
+      </div>
+
       <PopularRoutes/>
       <Footer/>
     </div>

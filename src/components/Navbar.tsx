@@ -84,7 +84,8 @@ export default function Header() {
           )}
 
           {/* BOOK NOW (desktop only) */}
-          <button className="hidden md:flex bg-gradient-to-r from-orange-500 to-orange-600 text-black font-semibold px-6 py-2.5 rounded-full shadow-lg shadow-orange-500/20 hover:scale-105 active:scale-95 transition">
+          <button onClick={()=>document.getElementById("station-search")?.scrollIntoView({behavior:"smooth", block:"start"})}
+          className="hidden md:flex bg-gradient-to-r from-orange-500 to-orange-600 text-black font-semibold px-6 py-2.5 rounded-full shadow-lg shadow-orange-500/20 hover:scale-105 active:scale-95 transition">
             Book Now
           </button>
 
@@ -138,9 +139,21 @@ export default function Header() {
               <LogoutButton />
             )}
 
-            <button className="bg-orange-600 text-black font-semibold px-4 py-2 rounded-full">
-              Book Now
-            </button>
+            <button
+  onClick={() => {
+    setOpen(false);
+
+    document
+      .getElementById("station-search")
+      ?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+  }}
+  className="bg-orange-600 text-black font-semibold px-4 py-2 rounded-full"
+>
+  Book Now
+</button>
           </div>
         </div>
       )}

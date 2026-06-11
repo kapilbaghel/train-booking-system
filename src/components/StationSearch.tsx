@@ -1,8 +1,8 @@
 "use client";
 
 import { ArrowLeftRight,ArrowUpDown ,CalendarDays, Train } from "lucide-react";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useState,useEffect } from "react";
+import { useRouter,useSearchParams } from "next/navigation";
 
 type Station = {
   data: {
@@ -13,6 +13,12 @@ type Station = {
 
 export default function StationSearch() {
   const router = useRouter();
+
+  const searchParams = useSearchParams();
+const sourceParam = searchParams.get("source");
+const destinationParam = searchParams.get("destination");
+const sourceCodeParam = searchParams.get("sourceCode");
+const destinationCodeParam = searchParams.get("destinationCode");
 
   const [fromCity, setFromCity] = useState("");
   const [fromCode, setFromCode] = useState("");
@@ -25,6 +31,25 @@ export default function StationSearch() {
 
   const [date, setDate] = useState("");
   const [isCustomDate, setIsCustomDate] = useState(false);
+
+  //auto-fill logic
+
+  useEffect(()=>{
+    if(sourceParam){
+      setFromCity(sourceParam);
+    }
+
+    if(destinationParam){
+      setToCity(destinationParam)
+    }
+
+    if(sourceCodeParam){
+      setFromCode(sourceCodeParam);
+    }
+    if(destinationCodeParam){
+      setToCode(destinationCodeParam);
+    }
+  },[sourceParam,destinationParam,sourceCodeParam,destinationCodeParam])
 
   // TEXT TRUNCATE FUNCTION
   const truncateText = (text: string, maxLength: number) => {

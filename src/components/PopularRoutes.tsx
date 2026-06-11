@@ -14,42 +14,54 @@ import {
 const routes = [
   {
     from: "Delhi",
+    fromCode:"NDLS",
     to: "Mumbai",
+    toCode:"MMCT",
     duration: "16h 20m",
     price: "1299",
     image:"/routes/d-mumbai.png"
   },
   {
     from: "Delhi",
+    fromCode:"NDLS",
     to: "Varanasi",
+    toCode:"BSB",
     duration: "08h 45m",
     price: "899",
     image:"/routes/d-varanasi.png"
   },
   {
     from: "Mumbai",
+    fromCode:"MMCT",
     to: "Ahmedabad",
+    toCode:"ADI",
     duration: "06h 10m",
     price: "699",
     image:"/routes/m-ahmedabad.png"
   },
   {
     from: "Delhi",
+    fromCode:"NDLS",
     to: "Lucknow",
+    toCode:"LKO",
     duration: "07h 30m",
     price: "799",
     image:"/routes/d-lucknow.png"
   },
   {
     from: "Bhopal",
+    fromCode:"BPL",
     to: "Indore",
+    toCode:"INDB",
     duration: "03h 15m",
     price: "499",
     image:"/routes/bhopal.png"
   },
   {
     from: "Jaipur",
+    fromCode:"JP",
     to: "Udaipur",
+    toCode:"UDZ",
     duration: "05h 00m",
     price: "599",
     image:"/routes/jaipur.png"
@@ -91,7 +103,6 @@ export default function PopularRoutes() {
           {routes.map((route, index) => (
             <div
               key={index}
-              onClick={()=> router.push(`/trains?from=${route.from}&to=${route.to}`)}
               className="group relative overflow-hidden rounded-3xl cursor-pointer border border-white/10 bg-white/5 backdrop-blur-xl p-7 transition-all duration-500 hover:border-orange-500/50 hover:-translate-y-2 hover:shadow-[0_0_40px_rgba(255,115,0,0.18)]"
             >
 <Image src={route.image} alt={`Route from ${route.from} to ${route.to}`} fill priority sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw" className="object-cover" />
@@ -163,7 +174,10 @@ export default function PopularRoutes() {
               </div>
 
               {/* BUTTON */}
-              <button className="relative z-10 mt-8 w-full rounded-2xl bg-orange-500 hover:bg-orange-600 transition-all duration-300 py-3 text-black font-semibold text-lg shadow-[0_0_25px_rgba(255,115,0,0.35)]">
+              <button onClick={()=> router.push(
+  `/?source=${route.from}&sourceCode=${route.fromCode}&destination=${route.to}&destinationCode=${route.toCode}#station-search`
+)}
+               className="relative z-10 mt-8 w-full rounded-2xl bg-orange-500 hover:bg-orange-600 transition-all duration-300 py-3 text-black font-semibold text-lg shadow-[0_0_25px_rgba(255,115,0,0.35)]">
                 Book Journey
               </button>
             </div>
