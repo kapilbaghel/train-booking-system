@@ -1,9 +1,9 @@
 import { Suspense } from "react"
-import PassengerDetailsContent from "./PassengerDetailsContent"
+import SeatsAvailabilityContent from "./SeatsAvailabilityContent"
 export default function Page(){
   return(
 <Suspense fallback={<div>Loading...</div>}>
-  <PassengerDetailsContent/>
+  <SeatsAvailabilityContent/>
 </Suspense>
   )
 }
