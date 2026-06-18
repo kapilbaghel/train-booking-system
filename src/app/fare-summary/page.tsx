@@ -21,7 +21,7 @@ export default function FareSummary() {
     );
   }
 
-  const farePerPassenger = 450;
+ const farePerPassenger = bookingData.fare || 0;
 
   const passengerCount = bookingData.passengers.length;
 

@@ -267,16 +267,26 @@ const tqAvailability = trainData?.availability?.find(
 {/* BOOK NOW BUTTON */}
 <div className="mt-8 flex justify-end">
   <button
-    onClick={() =>
-     router.push(
-  `/passenger-details?trainNumber=${trainNumber}&classType=${classType}&date=${selectedDate}&quota=${selectedQuota}`
-)
-    }
-    className="px-8 py-3 rounded-2xl bg-orange-500 text-black font-bold hover:bg-orange-600 transition-all shadow-lg shadow-orange-500/20 flex items-center gap-2"
-  >
-    <CheckCircle2 className="w-5 h-5" />
-    Book Now
-  </button>
+  onClick={() => {
+  const selectedFare =
+    selectedQuota === "GN"
+      ? gnAvailability?.fare
+      : tqAvailability?.fare;
+
+  localStorage.setItem(
+    "selectedFare",
+    JSON.stringify(selectedFare)
+  );
+
+  router.push(
+    `/passenger-details?trainNumber=${trainNumber}&classType=${classType}&date=${selectedDate}&quota=${selectedQuota}`
+  );
+}}
+  className="px-8 py-3 rounded-2xl bg-orange-500 text-black font-bold hover:bg-orange-600 transition-all shadow-lg shadow-orange-500/20 flex items-center gap-2"
+>
+  <CheckCircle2 className="w-5 h-5" />
+  Book Now
+</button>
 </div>
       </div>
     </div>

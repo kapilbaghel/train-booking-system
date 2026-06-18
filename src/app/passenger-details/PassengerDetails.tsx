@@ -119,6 +119,11 @@ if (!/^\d{10}$/.test(contact.mobile)) {
 
 //final booking object
 
+const selectedFare = JSON.parse(
+  localStorage.getItem("selectedFare") || "0"
+);
+
+
 const bookingData = {
   journey: {
     trainNumber,
@@ -132,6 +137,8 @@ const bookingData = {
   passengers,
 
   contact,
+  
+  fare: selectedFare,
 
   bookingDate: new Date().toISOString(),
 };
