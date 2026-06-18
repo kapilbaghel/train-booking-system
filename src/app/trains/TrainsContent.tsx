@@ -2,7 +2,6 @@
 
 import { useSearchParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-
 import {
   Clock3,
   TrainFront,
@@ -17,7 +16,7 @@ export default function TrainsContent() {
 
   const from = searchParams.get("from");
   const to = searchParams.get("to");
-  const date = searchParams.get("date");
+  const date = searchParams.get("date"); // Standard YYYY-MM-DD format expects karega
 
   console.log("FROM:", from);
   console.log("TO:", to);
@@ -34,10 +33,11 @@ export default function TrainsContent() {
     const fetchTrains = async () => {
       try {
         setLoading(true);
-        const formattedDate = date?.replaceAll("-", "");
-
+        
+        // Paytm API standard YYYY-MM-DD format accept karta hai. 
+        // Isliye hum bina hyphens remove kiye direct pass kar rahe hain taaki backend se matches sahi ho.
         const res = await fetch(
-          `/api/trains?from=${from}&to=${to}&date=${formattedDate}`,
+          `/api/trains?from=${from}&to=${to}&date=${date}`
         );
 
         const data = await res.json();
@@ -50,7 +50,7 @@ export default function TrainsContent() {
     };
 
     fetchTrains();
-  }, [from, to, date]); // Fixed: Dynamic values inject karne par re-fetch trigger hoga
+  }, [from, to, date]); // Dynamic values inject karne par re-fetch trigger hoga
 
   // LOADING UI
   if (loading) {
@@ -262,16 +262,13 @@ export default function TrainsContent() {
 
                       const chosenClass = selectedClass[train.trainNumber];
 
-                      // Poore object ko localStorage me save kar rahe hain taaki naye component me direct fetch ho sake
                       localStorage.setItem("selectedTrainData", JSON.stringify(train));
                       localStorage.setItem("selectedClassType", chosenClass);
 
-                      // Fixed: Safe date formulation
                       const trainDate = train.departure && train.departure.includes("T")
                         ? train.departure.split("T")[0]
                         : (date || "2026-06-20");
 
-                      // Naya updated folder path redirect link 
                       const passengerUrl = `/seats-availability-details?trainNumber=${train.trainNumber}&classType=${chosenClass}&selectedDate=${trainDate}`;
 
                       if (!data.authenticated) {
