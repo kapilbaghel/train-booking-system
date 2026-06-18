@@ -137,7 +137,7 @@ const bookingData = {
   passengers,
 
   contact,
-  
+
   fare: selectedFare,
 
   bookingDate: new Date().toISOString(),
@@ -247,24 +247,24 @@ return (
     <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
 
       {/* Name */}
-     <input
+    <input
   type="text"
   placeholder="Full Name"
   value={passenger.name}
   onChange={(e) =>
     handlePassengerChange(index, "name", e.target.value)
   }
-  className="w-full bg-black border border-gray-700 rounded-xl px-4 py-3"
+  className="w-full bg-black border border-gray-700 rounded-xl px-4 py-3 text-white text-base placeholder:text-gray-400 placeholder:opacity-100"
 />
       {/* Age */}
-     <input
+    <input
   type="number"
-  placeholder="Age"
+  placeholder="Enter Age"
   value={passenger.age}
   onChange={(e) =>
     handlePassengerChange(index, "age", e.target.value)
   }
-  className="w-full bg-black border border-gray-700 rounded-xl px-4 py-3"
+  className="w-full bg-black border border-gray-700 rounded-xl px-4 py-3 text-white text-base placeholder:text-gray-400 placeholder:opacity-100"
 />
 
       {/* Gender */}
@@ -318,9 +318,9 @@ return (
               Mobile Number
             </label>
 
-        <input
+       <input
   type="tel"
-  placeholder="Enter Mobile Number"
+  placeholder="Enter 10-digit Mobile Number"
   value={contact.mobile}
   onChange={(e) =>
     setContact({
@@ -328,7 +328,7 @@ return (
       mobile: e.target.value,
     })
   }
-  className="w-full bg-black border border-gray-700 rounded-xl px-4 py-3 focus:outline-none focus:border-orange-500"
+  className="w-full bg-black border border-gray-700 rounded-xl px-4 py-3 text-white text-base placeholder:text-gray-400 placeholder:opacity-100"
 />
           </div>
 
@@ -339,7 +339,7 @@ return (
 
            <input
   type="email"
-  placeholder="Enter Email"
+  placeholder="Enter Email Address"
   value={contact.email}
   onChange={(e) =>
     setContact({
@@ -347,7 +347,7 @@ return (
       email: e.target.value,
     })
   }
-  className="w-full bg-black border border-gray-700 rounded-xl px-4 py-3 focus:outline-none focus:border-orange-500"
+  className="w-full bg-black border border-gray-700 rounded-xl px-4 py-3 text-white text-base placeholder:text-gray-400 placeholder:opacity-100"
 />
           </div>
 
