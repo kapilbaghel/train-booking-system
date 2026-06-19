@@ -1,30 +1,42 @@
 import { NextRequest, NextResponse } from "next/server";
-import jwt from "jsonwebtoken";
 
 export function middleware(req: NextRequest) {
   const token = req.cookies.get("token")?.value;
 
-  const protectedRoutes = ["/dashboard"];
+  const protectedRoutes = [
+    "/dashboard",
+    "/seats-availability-details",
+    "/passenger-details",
+    "/review-booking",
+    "/fare-summary",
+  ];
 
   const isProtected = protectedRoutes.some((route) =>
     req.nextUrl.pathname.startsWith(route)
   );
 
   if (isProtected && !token) {
-    return NextResponse.redirect(new URL("/login", req.url));
+    const loginUrl = new URL("/login", req.url);
+
+    loginUrl.searchParams.set(
+      "redirect",
+      req.nextUrl.pathname + req.nextUrl.search
+    );
+
+    return NextResponse.redirect(loginUrl);
   }
 
-  try {
-    if (token) {
-      jwt.verify(token, process.env.JWT_SECRET!);
-    }
-  } catch (error) {
-    return NextResponse.redirect(new URL("/login", req.url));
-  }
+  // jwt.verify HATA DO
 
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/dashboard/:path*"],
+  matcher: [
+    "/dashboard/:path*",
+    "/seats-availability-details/:path*",
+    "/passenger-details",
+    "/review-booking",
+    "/fare-summary",
+  ],
 };

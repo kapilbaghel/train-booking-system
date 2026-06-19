@@ -13,8 +13,13 @@ export default function SeatsAvailability() {
   const classType = searchParams.get("classType");
   const selectedDate = searchParams.get("selectedDate");
 
+  console.log("Train Number:", trainNumber);
+console.log("Class Type:", classType);
+console.log("Selected Date:", selectedDate);
+
   const [trainData, setTrainData] = useState<any>(null);
   const [selectedQuota, setSelectedQuota] = useState("GN");
+  const [bookingLoading,setBookingLoading] = useState(false)
 
  useEffect(() => {
   const savedData = localStorage.getItem("selectedTrainData");
@@ -267,89 +272,47 @@ const tqAvailability = trainData?.availability?.find(
 {/* BOOK NOW BUTTON */}
 <div className="mt-8 flex justify-end">
   <button
-  onClick={() => {
-  const selectedFare =
-    selectedQuota === "GN"
-      ? gnAvailability?.fare
-      : tqAvailability?.fare;
+    disabled={bookingLoading}
+    onClick={() => {
+      setBookingLoading(true);
 
-  localStorage.setItem(
-    "selectedFare",
-    JSON.stringify(selectedFare)
-  );
+      const selectedFare =
+        selectedQuota === "GN"
+          ? gnAvailability?.fare
+          : tqAvailability?.fare;
 
-  router.push(
-    `/passenger-details?trainNumber=${trainNumber}&classType=${classType}&date=${selectedDate}&quota=${selectedQuota}`
-  );
-}}
-  className="px-8 py-3 rounded-2xl bg-orange-500 text-black font-bold hover:bg-orange-600 transition-all shadow-lg shadow-orange-500/20 flex items-center gap-2"
->
-  <CheckCircle2 className="w-5 h-5" />
-  Book Now
-</button>
+      localStorage.setItem(
+        "selectedFare",
+        JSON.stringify(selectedFare)
+      );
+
+      setTimeout(() => {
+        router.push(
+          `/passenger-details?trainNumber=${trainNumber}&classType=${classType}&date=${selectedDate}&quota=${selectedQuota}`
+        );
+      }, 500);
+    }}
+    className={`px-8 py-3 rounded-2xl font-bold transition-all shadow-lg shadow-orange-500/20 flex items-center gap-2 ${
+      bookingLoading
+        ? "bg-orange-400 cursor-not-allowed"
+        : "bg-orange-500 hover:bg-orange-600 text-black"
+    }`}
+  >
+    {bookingLoading ? (
+      <>
+        <div className="w-5 h-5 border-2 border-black border-t-transparent rounded-full animate-spin"></div>
+        Redirecting...
+      </>
+    ) : (
+      <>
+        <CheckCircle2 className="w-5 h-5" />
+        Book Now
+      </>
+    )}
+  </button>
 </div>
-      </div>
-    </div>
+
+      </div>   
+    </div>    
   );
 }
-
-
-// "use client"
-
-// import { useState } from "react";
-
-// export default function SeatsAvailability(){
-//   const[quota,setQuota]=useState("GN")
-
-//   const seatsData = {
-//     general: [
-//       { coach: "S1", available: 23 },
-//       { coach: "S2", available: 10 },
-//       { coach: "S3", available: 0 },
-//     ],
-//     tatkal: [
-//       { coach: "S1", available: 5 },
-//       { coach: "S2", available: 2 },
-//       { coach: "S3", available: 1 },
-//     ],
-//   };
-
-//   const selectedSeats = quota === "GN"? seatsData.general : seatsData.tatkal;
-
-
-//   return(
-//     <div className="min-h-screen bg-white border rounded-2xl ">
-//       <h1 className="mt-10 ml-10 text-lg font-bold">Seats Availability</h1>
-//       <div className="max-w-250 h-60 bg-red-200 m-auto flex gap-1 pt-3 pl-3">
-
-//       <div >
-//         <button   onClick={()=>setQuota("GN")} className={`bg-gray-300 w-30 h-8 px-3 py-1 rounded-xl ${quota === "GN"?"bg-green-500 text-white":"bg-gray-300 text-black"}`}
-//         >Gn Quota</button>
-//       </div>
-// {quota==="GN" &&(
-//   <div className="mt-4 w-50">{selectedSeats.map((seat,index)=>(
-//     <div key={index} className="border p-2 rounded-lg mb-2 flex justify-between">
-//       <span>{seat.coach} :</span>
-//       <span>
-//         {seat.available > 0 ? `Available: ${seat.available}` : "WL"}</span>
-//     </div>
-//   ))}</div>
-// )}
-
-
-//       <div>
-//         <button onClick={()=>setQuota("TQ")} className={`bg-gray-300 w-30 h-8 px-3 py-1 rounded-xl ${quota === "TQ"?"bg-green-500 text-white":"bg-gray-300 text-black"}`}>Tq Quota</button>
-// {quota==="TQ" &&(
-//   <div className="mt-3 w-60">{selectedSeats.map((seat,index)=>(
-//     <div key={index} className="border p-3 rounded-lg mb-2 flex justify-between">
-//       <span>{seat.coach} :</span>
-//       <span>
-//         {seat.available > 0 ? `Available: ${seat.available}` : "WL"}</span>
-//     </div>
-//   ))}</div>
-// )}
-//         </div>
-//       </div>
-//     </div>
-//   )
-// }

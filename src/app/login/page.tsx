@@ -1,10 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter,useSearchParams } from "next/navigation";
 
 export default function LoginPage() {
   const router = useRouter();
+
+  const searchParams = useSearchParams();
+  const redirectUrl = searchParams.get("redirect");
+  console.log("Redirect URL:", redirectUrl);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -38,7 +42,7 @@ export default function LoginPage() {
 
       setMessage("Login Successful ✅");
 
-      router.replace("/");
+      router.replace(redirectUrl || "/");
     } catch (error) {
       console.error(error);
       setMessage("Something went wrong");

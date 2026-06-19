@@ -4,14 +4,18 @@ import { useRouter } from "next/navigation";
 
 export default function ReviewPage(){
     const[bookingData,setBookingData]=useState<any>(null);
+    const[loading,setLoading]=useState(false)
     const router = useRouter();
 
-    useEffect(()=>{
-        const saved = localStorage.getItem("bookingData")
-        if(saved){
-            setBookingData(JSON.parse(saved))
-        }
-    },[]);
+    useEffect(() => {
+  const saved = localStorage.getItem("bookingData");
+
+  console.log("Saved Data:", saved);
+
+  if (saved) {
+    setBookingData(JSON.parse(saved));
+  }
+}, []);
 
     if (!bookingData) {
     return (
@@ -20,7 +24,15 @@ export default function ReviewPage(){
       </div>
     );
   }
-console.log(bookingData);
+console.log("bookind data",bookingData);
+
+const handlePayment = () => {
+  setLoading(true);
+
+  setTimeout(() => {
+    router.push("/fare-summary");
+  }, 1000);
+};
 
     return (
   <div className="min-h-screen bg-black text-white p-4">
@@ -213,17 +225,32 @@ console.log(bookingData);
 
 <div className="flex justify-between mt-8">
 
+  {/* Back Button (Left Side) */}
   <button
     onClick={() => router.back()}
-    className="bg-gray-700 hover:bg-gray-600 px-6 py-3 rounded-xl font-semibold"
+    className="bg-gray-700 hover:bg-gray-600 text-white px-6 py-3 rounded-xl font-semibold"
   >
     ← Back
   </button>
 
+  {/* Payment Button (Right Side) */}
   <button
-    className="bg-orange-500 hover:bg-orange-600 text-black px-6 py-3 rounded-xl font-semibold"
-  onClick={()=>router.push("/fare-summary")}>
-    Proceed to Payment
+    onClick={handlePayment}
+    disabled={loading}
+    className={`flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-semibold transition ${
+      loading
+        ? "bg-orange-400 cursor-not-allowed text-white"
+        : "bg-orange-500 hover:bg-orange-600 text-black"
+    }`}
+  >
+    {loading ? (
+      <>
+        <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+        Processing...
+      </>
+    ) : (
+      "Proceed to Payment"
+    )}
   </button>
 
 </div>

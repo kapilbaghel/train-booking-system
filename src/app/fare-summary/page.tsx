@@ -1,12 +1,15 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function FareSummary() {
   const [bookingData, setBookingData] = useState<any>(null);
+  const[loading,setLoading]=useState(false)
+  const router = useRouter();
 
   useEffect(() => {
-    const saved = localStorage.getItem("bookingData");
+   const saved = localStorage.getItem("bookingData");
 
     if (saved) {
       setBookingData(JSON.parse(saved));
@@ -39,6 +42,51 @@ export default function FareSummary() {
     superfastCharge +
     gst;
 
+const handlePayment = async () => {
+  setLoading(true);
+
+  const finalBookingData = {
+    ...bookingData,
+    fare: {
+      baseFare,
+      reservationCharge,
+      superfastCharge,
+      gst,
+      totalFare,
+    },
+  };
+
+  try {
+    const response = await fetch("/api/bookings", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(finalBookingData),
+    });
+
+    const result = await response.json();
+
+    console.log(result);
+
+    if (result.success) {
+  localStorage.setItem(
+    "confirmedBooking",
+    JSON.stringify(result.booking)
+  );
+
+  router.push("/confirmation");
+}
+     else {
+      alert(result.message || "Booking failed");
+      setLoading(false);
+    }
+  } catch (error) {
+    console.log(error);
+    alert("Something went wrong");
+    setLoading(false);
+  }
+};
   return (
     <div className="min-h-screen bg-black text-white p-4">
       <div className="max-w-4xl mx-auto">
@@ -123,11 +171,24 @@ export default function FareSummary() {
             ← Back
           </button>
 
-          <button
-            className="bg-orange-500 hover:bg-orange-600 text-black px-6 py-3 rounded-xl font-semibold"
-          >
-            Proceed to Payment
-          </button>
+         <button
+    onClick={handlePayment}
+    disabled={loading}
+    className={`flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-semibold transition ${
+      loading
+        ? "bg-orange-400 cursor-not-allowed text-white"
+        : "bg-orange-500 hover:bg-orange-600 text-black"
+    }`}
+  >
+    {loading ? (
+      <>
+        <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+        Processing...
+      </>
+    ) : (
+      "Proceed to Payment"
+    )}
+  </button>
 
         </div>
 

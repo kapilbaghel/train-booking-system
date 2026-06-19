@@ -252,44 +252,55 @@ export default function TrainsContent() {
               </div>
 
               {/* CONTINUE BUTTON */}
-              <div className="flex justify-end mt-5">
-                <button
-                  disabled={!selectedClass[train.trainNumber]}
-                  onClick={async () => {
-                    try {
-                      const res = await fetch("/api/check-auth");
-                      const data = await res.json();
+             <div className="flex justify-end mt-5">
+  <button
+    disabled={!selectedClass[train.trainNumber]}
+    onClick={() => {
+      try {
+        const chosenClass = selectedClass[train.trainNumber];
 
-                      const chosenClass = selectedClass[train.trainNumber];
+        // Train data save kar lo
+        localStorage.setItem(
+          "selectedTrainData",
+          JSON.stringify(train)
+        );
 
-                      localStorage.setItem("selectedTrainData", JSON.stringify(train));
-                      localStorage.setItem("selectedClassType", chosenClass);
+        // Selected class save kar lo
+        localStorage.setItem(
+          "selectedClassType",
+          chosenClass
+        );
 
-                      const trainDate = train.departure && train.departure.includes("T")
-                        ? train.departure.split("T")[0]
-                        : (date || "2026-06-20");
+        // Date nikalo
+        const trainDate =
+          train.departure && train.departure.includes("T")
+            ? train.departure.split("T")[0]
+            : (date || "2026-06-20");
 
-                      const passengerUrl = `/seats-availability-details?trainNumber=${train.trainNumber}&classType=${chosenClass}&selectedDate=${trainDate}`;
-
-                      if (!data.authenticated) {
-                        router.push(`/signup?redirect=${encodeURIComponent(passengerUrl)}`);
-                        return;
-                      }
-
-                      router.push(passengerUrl);
-                    } catch (err) {
-                      console.error("Redirection flow error:", err);
-                    }
-                  }}
-                  className={`px-16 py-2 rounded-xl font-semibold transition ${
-                    selectedClass[train.trainNumber]
-                      ? "bg-orange-500 text-black hover:bg-orange-600 cursor-pointer"
-                      : "bg-orange-500/10 border border-orange-500/20 text-orange-500 cursor-not-allowed"
-                  }`}
-                >
-                  Continue
-                </button>
-              </div>
+        // Seats Availability URL banao
+        const passengerUrl =
+  `/seats-availability-details` +
+  `?trainNumber=${train.trainNumber}` +
+  `&classType=${chosenClass}` +
+  `&selectedDate=${trainDate}` +
+  `&from=${from}` +
+  `&to=${to}`;
+  
+        // Direct protected page par bhej do
+        router.push(passengerUrl);
+      } catch (err) {
+        console.error("Redirection flow error:", err);
+      }
+    }}
+    className={`px-16 py-2 rounded-xl font-semibold transition ${
+      selectedClass[train.trainNumber]
+        ? "bg-orange-500 text-black hover:bg-orange-600 cursor-pointer"
+        : "bg-orange-500/10 border border-orange-500/20 text-orange-500 cursor-not-allowed"
+    }`}
+  >
+    Continue
+  </button>
+</div>
             </div>
           ))
         )}

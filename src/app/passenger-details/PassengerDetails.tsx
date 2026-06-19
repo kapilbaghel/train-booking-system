@@ -20,6 +20,8 @@ const [contact, setContact] = useState({
   mobile: "",
   email: "",
 });
+
+const[loading,setLoading]=useState(false);
 //add passenger function...
 const addPassenger = () => {
   if (passengers.length >= 6) {
@@ -91,7 +93,6 @@ useEffect(()=>{
   console.log({trainNumber,classType,date,quota});
 
   const handleContinue=()=>{
-
     for (const passenger of passengers) {
   if (
     !passenger.name ||
@@ -117,6 +118,7 @@ if (!/^\d{10}$/.test(contact.mobile)) {
   return;
 }
 
+setLoading(true)
 //final booking object
 
 const selectedFare = JSON.parse(
@@ -147,9 +149,11 @@ localStorage.setItem(
   "bookingData",
   JSON.stringify(bookingData)
 );
-
+setLoading(true)
 //routing...
-router.push("review-booking")
+setTimeout(()=>{
+  router.push("/review-booking")
+},1000)
   }
 
  const handleBack = () => {
@@ -354,7 +358,7 @@ return (
         </div>
 
         {/* Continue Button */}
-      <div className="flex justify-between items-center mt-8">
+      <div className="flex justify-between items-center mt-8 gap-2">
   <button
     type="button"
     onClick={handleBack}
@@ -363,13 +367,25 @@ return (
     ← Back
   </button>
 
-  <button
-    type="button"
-    onClick={handleContinue}
-    className="bg-orange-500 hover:bg-orange-600 transition px-8 py-3 rounded-xl font-semibold text-black"
-  >
-    Continue to Review →
-  </button>
+ <button
+  type="button"
+  onClick={handleContinue}
+  disabled={loading}
+  className={`flex items-center justify-center px-8 py-3 rounded-xl font-semibold transition ${
+    loading
+      ? "bg-orange-400 cursor-not-allowed text-white"
+      : "bg-orange-500 hover:bg-orange-600 text-white"
+  }`}
+>
+  {loading ? (
+    <div className="flex items-center gap-2">
+      <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+      <span>Reviewing...</span>
+    </div>
+  ) : (
+    "Continue to Review →"
+  )}
+</button>
 </div>
       </div>
 
