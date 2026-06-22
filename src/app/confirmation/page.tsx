@@ -11,6 +11,10 @@ export default function ConfirmationPage() {
     const saved = localStorage.getItem("bookingData");
 
     if (saved) {
+
+        const parsedData = JSON.parse(saved);
+
+    console.log("Booking Data:", parsedData);
       setBookingData(JSON.parse(saved));
     }
   }, []);
@@ -210,13 +214,13 @@ export default function ConfirmationPage() {
           <div className="grid md:grid-cols-2 gap-4">
             <div>
               <p className="text-gray-400">Total Fare</p>
-              <p>₹{bookingData.fare.totalFare}</p>
+              <p>₹{bookingData.fare}</p>
             </div>
 
             <div>
               <p className="text-gray-400">Booking Date</p>
               <p>
-                {new Date(bookingData.createdAt).toLocaleString("en-IN")}
+                {new Date(bookingData.bookingDate).toLocaleString("en-IN")}
               </p>
             </div>
           </div>
