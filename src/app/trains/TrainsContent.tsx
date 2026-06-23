@@ -1,14 +1,9 @@
 "use client";
-
+import Navbar from "@/components/Navbar";
+import StationSearch from "@/components/StationSearch";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import {
-  Clock3,
-  TrainFront,
-  ArrowRight,
-  CalendarDays,
-  ArrowLeft,
-} from "lucide-react";
+import {Clock3,TrainFront,ArrowRight,CalendarDays,ArrowLeft,} from "lucide-react";
 
 export default function TrainsContent() {
   const router = useRouter();
@@ -24,7 +19,9 @@ export default function TrainsContent() {
 
   const [trains, setTrains] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedClass, setSelectedClass] = useState<{ [key: string]: string }>({});
+  const [selectedClass, setSelectedClass] = useState<{ [key: string]: string }>(
+    {},
+  );
 
   useEffect(() => {
     // Jab tak search query parameters mil nahi jaate tab tak fetch na karein
@@ -33,11 +30,11 @@ export default function TrainsContent() {
     const fetchTrains = async () => {
       try {
         setLoading(true);
-        
-        // Paytm API standard YYYY-MM-DD format accept karta hai. 
+
+        // Paytm API standard YYYY-MM-DD format accept karta hai.
         // Isliye hum bina hyphens remove kiye direct pass kar rahe hain taaki backend se matches sahi ho.
         const res = await fetch(
-          `/api/trains?from=${from}&to=${to}&date=${date}`
+          `/api/trains?from=${from}&to=${to}&date=${date}`,
         );
 
         const data = await res.json();
@@ -67,6 +64,11 @@ export default function TrainsContent() {
   }
 
   return (
+
+    <>
+
+    <Navbar isSticky={false}/>
+
     <div className="relative min-h-screen bg-black overflow-hidden px-4 sm:px-6 md:px-10 lg:px-16 py-8 md:py-10">
       {/* BACKGROUND GLOW */}
       <div className="absolute top-20 left-1/2 -translate-x-1/2 w-[500px] sm:w-[700px] h-[500px] sm:h-[700px] bg-orange-500/10 blur-[180px] rounded-full -z-10" />
@@ -84,34 +86,32 @@ export default function TrainsContent() {
         </button>
       </div>
 
+      <StationSearch buttonText="Modify Search"
+      compact={true}/>
+
       {/* HEADER */}
-      <div className="max-w-7xl mx-auto mb-10">
+      <div className="max-w-7xl mx-auto mb-5 md:mb-10">
         <div className="flex flex-col sm:flex-row sm:items-center gap-4">
-          {/* ICON */}
-          <div className="w-14 h-14 rounded-2xl bg-orange-500/10 border border-orange-500/30 flex items-center justify-center">
-            <TrainFront className="text-orange-500 w-7 h-7" />
-          </div>
+         
 
           {/* TEXT */}
           <div>
-            <p className="text-orange-500 text-xs sm:text-sm uppercase tracking-[0.3em]">
-              Mangal Journey
-            </p>
-            <h1 className="text-2xl sm:text-4xl md:text-5xl font-bold text-white mt-1">
-              Available <span className="text-orange-500">Trains</span>
-            </h1>
+          
+           <h1 className="text-lg sm:text-xl md:text-3xl font-normal text-white mt-1">
+  Available <span className="text-orange-500">Trains</span>
+</h1>
           </div>
         </div>
 
         {/* SEARCH DETAILS */}
         <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-sm text-gray-400 mt-8">
-          <div className="bg-white/5 border border-white/10 px-4 py-2 rounded-full">
+          <div className="bg-white/5 border border-white/10 px-2 py-1 md:px-4 md:py-2 rounded-full text-xs md:text-sm">
             From: <span className="text-white">{from}</span>
           </div>
 
           <ArrowRight className="text-orange-500 w-4 h-4" />
 
-          <div className="bg-white/5 border border-white/10 px-4 py-2 rounded-full">
+          <div className="bg-white/5 border border-white/10 px-2 py-1 md:px-4 md:py-2 rounded-full text-xs md:text-sm">
             To: <span className="text-white">{to}</span>
           </div>
 
@@ -125,12 +125,14 @@ export default function TrainsContent() {
       {/* TRAIN LIST */}
       <div className="max-w-7xl mx-auto flex flex-col gap-8">
         {trains.length === 0 ? (
-          <div className="text-gray-500 text-center py-10 text-lg">No trains found for this route.</div>
+          <div className="text-gray-500 text-center py-10 text-lg">
+            No trains found for this route.
+          </div>
         ) : (
           trains.map((train: any, index) => (
             <div
               key={index}
-              className="relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl p-4 sm:p-6 md:p-8 hover:border-orange-500/40 transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl hover:shadow-orange-500/10"
+             className="relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl p-4 md:p-5 ..."
             >
               {/* CARD GLOW */}
               <div className="absolute top-0 right-0 w-40 sm:w-60 h-40 sm:h-60 bg-orange-500/10 blur-3xl rounded-full" />
@@ -139,10 +141,7 @@ export default function TrainsContent() {
               <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
                 {/* TRAIN INFO */}
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-orange-500/10 border border-orange-500/20 flex items-center justify-center shrink-0">
-                    <TrainFront className="text-orange-500 w-5 h-5" />
-                  </div>
-
+                
                   <div>
                     <h2 className="text-xl sm:text-2xl font-bold text-white truncate max-w-[220px] sm:max-w-full">
                       {train.trainName}
@@ -166,9 +165,9 @@ export default function TrainsContent() {
               </div>
 
               {/* ROUTE SECTION */}
-              <div className="mt-10 flex flex-col md:flex-row items-center justify-between gap-10">
+              <div className="mt-4 flex flex-row items-start justify-between gap-4 md:gap-6">
                 {/* SOURCE */}
-                <div className="text-center md:text-left w-full md:w-auto">
+                <div className="text-left flex-1">
                   <p className="text-3xl sm:text-4xl md:text-5xl font-bold text-white tracking-wide">
                     {train.source}
                   </p>
@@ -178,10 +177,15 @@ export default function TrainsContent() {
                   <div className="mt-5">
                     <p className="text-sm text-gray-500">Departure</p>
                     <p className="text-lg sm:text-xl font-semibold text-orange-500 mt-1">
-                      {train.departure ? new Date(train.departure).toLocaleTimeString("en-IN", {
-                        hour: "2-digit",
-                        minute: "2-digit",
-                      }) : "--:--"}
+                      {train.departure
+                        ? new Date(train.departure).toLocaleTimeString(
+                            "en-IN",
+                            {
+                              hour: "2-digit",
+                              minute: "2-digit",
+                            },
+                          )
+                        : "--:--"}
                     </p>
                   </div>
                 </div>
@@ -201,7 +205,7 @@ export default function TrainsContent() {
                 </div>
 
                 {/* MOBILE ROUTE */}
-                <div className="flex md:hidden items-center justify-center gap-3 w-full">
+                <div className="md:hidden flex items-center justify-center px-2">
                   <div className="w-3 h-3 rounded-full bg-orange-500" />
                   <div className="flex-1 border-t border-dashed border-orange-500" />
                   <TrainFront className="text-orange-500 w-5 h-5" />
@@ -210,89 +214,85 @@ export default function TrainsContent() {
                 </div>
 
                 {/* DESTINATION */}
-                <div className="text-center md:text-right w-full md:w-auto">
-                  <p className="text-3xl sm:text-4xl md:text-5xl font-bold text-white tracking-wide">
+                <div className="text-right flex-1">
+                  <p className="text-xl sm:text-4xl md:text-5xl font-bold text-white tracking-wide">
                     {train.destination}
                   </p>
-                  <p className="text-gray-400 mt-2 text-sm sm:text-base max-w-[220px] mx-auto md:ml-auto">
+                  <p className="text-gray-400 mt-2 text-sm sm:text-base max-w-[220px] mx-auto md:ml-auto md:mr-4">
                     {train.destination_name}
                   </p>
                   <div className="mt-5">
-                    <p className="text-sm text-gray-500">Arrival</p>
+                    <p className="text-sm text-gray-500 mr-4">Arrival</p>
                     <p className="text-lg sm:text-xl font-semibold text-orange-500 mt-1">
-                      {train.arrival ? new Date(train.arrival).toLocaleTimeString("en-IN", {
-                        hour: "2-digit",
-                        minute: "2-digit",
-                      }) : "--:--"}
+                      {train.arrival
+                        ? new Date(train.arrival).toLocaleTimeString("en-IN", {
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          })
+                        : "--:--"}
                     </p>
                   </div>
                 </div>
               </div>
 
               {/* CLASSES */}
-              <div className="mt-10 flex flex-wrap gap-3">
-                {train.classes?.map((item: string, i: number) => (
-                  <button
-                    key={i}
-                    onClick={() =>
-                      setSelectedClass((prev) => ({
-                        ...prev,
-                        [train.trainNumber]: item,
-                      }))
-                    }
-                    className={`px-3 sm:px-5 py-2 rounded-xl border text-sm font-medium transition-all duration-300 cursor-pointer ${
-                      selectedClass[train.trainNumber] === item
-                        ? "bg-orange-500 text-black border-orange-500"
-                        : "border-orange-500/30 bg-orange-500/10 text-orange-400 hover:bg-orange-500 hover:text-black"
-                    }`}
-                  >
-                    {item}
-                  </button>
-                ))}
-              </div>
+    <div className="mt-5 flex items-center justify-between gap-4">
+  
+  {/* Classes */}
+  <div className="flex flex-wrap gap-2">
+    {train.classes?.map((item: string, i: number) => (
+      <button
+        key={i}
+        onClick={() =>
+          setSelectedClass((prev) => ({
+            ...prev,
+            [train.trainNumber]: item,
+          }))
+        }
+        className={`px-3 sm:px-5 py-2 rounded-xl border text-sm font-medium transition-all duration-300 cursor-pointer ${
+          selectedClass[train.trainNumber] === item
+            ? "bg-orange-500 text-black border-orange-500"
+            : "border-orange-500/30 bg-orange-500/10 text-orange-400 hover:bg-orange-500 hover:text-black"
+        }`}
+      >
+        {item}
+      </button>
+    ))}
+  </div>
 
-              {/* CONTINUE BUTTON */}
-             <div className="flex justify-end mt-5">
+  {/* Continue Button */}
   <button
     disabled={!selectedClass[train.trainNumber]}
-    onClick={() => {
-      try {
-        const chosenClass = selectedClass[train.trainNumber];
+  onClick={() => {
+  try {
+    const chosenClass = selectedClass[train.trainNumber];
 
-        // Train data save kar lo
-        localStorage.setItem(
-          "selectedTrainData",
-          JSON.stringify(train)
-        );
+    localStorage.setItem(
+      "selectedTrainData",
+      JSON.stringify(train)
+    );
 
-        // Selected class save kar lo
-        localStorage.setItem(
-          "selectedClassType",
-          chosenClass
-        );
+    localStorage.setItem("selectedClassType", chosenClass);
 
-        // Date nikalo
-        const trainDate =
-          train.departure && train.departure.includes("T")
-            ? train.departure.split("T")[0]
-            : (date || "2026-06-20");
+    const trainDate =
+      train.departure && train.departure.includes("T")
+        ? train.departure.split("T")[0]
+        : date || "2026-06-20";
 
-        // Seats Availability URL banao
-        const passengerUrl =
-  `/seats-availability-details` +
-  `?trainNumber=${train.trainNumber}` +
-  `&classType=${chosenClass}` +
-  `&selectedDate=${trainDate}` +
-  `&from=${from}` +
-  `&to=${to}`;
-  
-        // Direct protected page par bhej do
-        router.push(passengerUrl);
-      } catch (err) {
-        console.error("Redirection flow error:", err);
-      }
-    }}
-    className={`px-16 py-2 rounded-xl font-semibold transition ${
+    const passengerUrl =
+      `/seats-availability-details` +
+      `?trainNumber=${train.trainNumber}` +
+      `&classType=${chosenClass}` +
+      `&selectedDate=${trainDate}` +
+      `&from=${from}` +
+      `&to=${to}`;
+
+    router.push(passengerUrl);
+  } catch (err) {
+    console.error("Redirection flow error:", err);
+  }
+}}
+    className={`px-10 py-2 rounded-xl font-semibold transition shrink-0 ${
       selectedClass[train.trainNumber]
         ? "bg-orange-500 text-black hover:bg-orange-600 cursor-pointer"
         : "bg-orange-500/10 border border-orange-500/20 text-orange-500 cursor-not-allowed"
@@ -300,11 +300,13 @@ export default function TrainsContent() {
   >
     Continue
   </button>
+
 </div>
             </div>
           ))
         )}
       </div>
     </div>
+    </>
   );
 }

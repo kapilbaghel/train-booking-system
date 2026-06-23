@@ -11,7 +11,8 @@ type Station = {
   };
 };
 
-export default function StationSearch() {
+export default function StationSearch({buttonText="Search",compact=false,}:{buttonText?:string;compact?:boolean}) {
+  //button text by default "search" dikhai dega and agar koi value aayi jaise <StationSearch buttonText="modifySearch"/>to vo dikhai dega.
   const router = useRouter();
 
   const searchParams = useSearchParams();
@@ -158,7 +159,12 @@ const destinationCodeParam = searchParams.get("destinationCode");
               title={fromCity}
               onChange={(e) => fetchStations(e.target.value)}
               placeholder="Enter station"
-              className="w-full truncate bg-white/5 border border-white/10 focus:border-orange-500/50 outline-none text-white px-4 py-3 rounded-xl"
+             className={`w-full truncate bg-white/5 outline-none text-white px-4 py-3
+  ${
+    compact
+      ? "border-b border-orange-500 rounded-none bg-transparent"
+      : "border border-white/10 focus:border-orange-500/50 rounded-xl"
+  }`}
             />
 
             {stations.length > 0 && (
@@ -209,7 +215,12 @@ const destinationCodeParam = searchParams.get("destinationCode");
               title={toCity}
               onChange={(e) => fetchToStations(e.target.value)}
               placeholder="Enter station"
-              className="w-full truncate bg-white/5 border border-white/10 focus:border-orange-500/50 outline-none text-white px-3 md:px-4 py-2.5 md:py-3 rounded-xl"
+              className={`w-full truncate outline-none text-white px-3 md:px-4 py-2.5 md:py-3
+  ${
+    compact
+      ? "border-b border-orange-500 rounded-none bg-transparent"
+      : "bg-white/5 border border-white/10 focus:border-orange-500/50 rounded-xl"
+  }`}
             />
 
             {toStations.length > 0 && (
@@ -241,7 +252,7 @@ const destinationCodeParam = searchParams.get("destinationCode");
               className="w-full bg-gradient-to-r from-orange-500 to-orange-600 text-black font-semibold py-3 rounded-xl hover:scale-105 active:scale-95 transition shadow-lg shadow-orange-500/20 flex items-center justify-center gap-2 mt-6"
             >
               <Train className="w-5 h-5" />
-              Search
+              {buttonText}
             </button>
           </div>
 

@@ -9,6 +9,7 @@ export function middleware(req: NextRequest) {
     "/passenger-details",
     "/review-booking",
     "/fare-summary",
+    "/confirmation",
   ];
 
   const isProtected = protectedRoutes.some((route) =>
@@ -38,5 +39,6 @@ export const config = {
     "/passenger-details",
     "/review-booking",
     "/fare-summary",
+    "/confirmation",
   ],
 };

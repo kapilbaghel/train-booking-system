@@ -249,7 +249,7 @@ const handlePayment = () => {
         Processing...
       </>
     ) : (
-      "Proceed to Payment"
+      "View Fare"
     )}
   </button>
 

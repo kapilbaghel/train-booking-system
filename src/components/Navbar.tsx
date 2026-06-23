@@ -5,7 +5,11 @@ import { Train, Search, Menu, X } from "lucide-react";
 import { useState, useEffect } from "react";
 import LogoutButton from "@/app/logout/page";
 
-export default function Header() {
+export default function Header({
+  isSticky = true,
+}: {
+  isSticky?: boolean;
+}) {
   const [open, setOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -26,7 +30,11 @@ export default function Header() {
   const navItems = ["Home", "Trains", "Bookings", "Support"];
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-black/80 backdrop-blur-md border-b border-white/10">
+    <header
+  className={`${
+    isSticky ? "sticky top-0" : ""
+  } z-50 w-full bg-black/80 backdrop-blur-md border-b border-white/10`}
+>
       {/* TOP BAR */}
       <div className="w-full flex items-center justify-between px-6 md:px-10 lg:px-16 py-4">
         {/* LEFT LOGO */}
