@@ -87,7 +87,10 @@ export default function TrainsContent() {
       </div>
 
       <StationSearch buttonText="Modify Search"
-      compact={true}/>
+      compact={true}
+      placeholder=""
+       highlightLabels={true}
+       showHeading={false}/>
 
       {/* HEADER */}
       <div className="max-w-7xl mx-auto mb-5 md:mb-10">

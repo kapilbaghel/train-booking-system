@@ -11,7 +11,7 @@ type Station = {
   };
 };
 
-export default function StationSearch({buttonText="Search",compact=false,}:{buttonText?:string;compact?:boolean}) {
+export default function StationSearch({buttonText="Search",compact=false,placeholder="Enter station",highlightLabels=false,showHeading=true}:{buttonText?:string;compact?:boolean;placeholder?:string;highlightLabels?:boolean;showHeading?:boolean}) {
   //button text by default "search" dikhai dega and agar koi value aayi jaise <StationSearch buttonText="modifySearch"/>to vo dikhai dega.
   const router = useRouter();
 
@@ -135,22 +135,30 @@ const destinationCodeParam = searchParams.get("destinationCode");
       <div className="w-full max-w-6xl bg-black/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl shadow-orange-500/10 p-6 md:p-10">
 
         {/* HEADER */}
-        <div className="flex items-center gap-3 mb-8">
-          <div className="w-10 h-10 rounded-xl bg-orange-500/10 border border-orange-500/30 flex items-center justify-center">
-            <Train className="text-orange-500 w-5 h-5" />
-          </div>
+        {showHeading && (
+  <div className="flex items-center gap-3 mb-8">
+    <div className="w-10 h-10 rounded-xl bg-orange-500/10 border border-orange-500/30 flex items-center justify-center">
+      <Train className="text-orange-500 w-5 h-5" />
+    </div>
 
-          <h2 className="text-white text-lg md:text-xl font-semibold">
-            Search Your <span className="text-orange-600">Journey</span>
-          </h2>
-        </div>
+    <h2 className="text-white text-lg md:text-xl font-semibold">
+      Search Your <span className="text-orange-600">Journey</span>
+    </h2>
+  </div>
+)}
 
         {/* GRID */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-3 md:gap-6 items-center">
 
           {/* FROM */}
           <div className="relative">
-            <p className="text-xs text-gray-400 mb-2">
+           <p
+  className={`mb-2 ${
+    highlightLabels
+      ? "text-orange-500 text-lg "
+      : "text-xs text-gray-400"
+  }`}
+>
               From
             </p>
 
@@ -158,12 +166,12 @@ const destinationCodeParam = searchParams.get("destinationCode");
               value={truncateText(fromCity, 22)}
               title={fromCity}
               onChange={(e) => fetchStations(e.target.value)}
-              placeholder="Enter station"
-             className={`w-full truncate bg-white/5 outline-none text-white px-4 py-3
-  ${
+              placeholder={placeholder}
+             className={`w-full truncate outline-none text-white px-3 md:px-4 py-2.5 md:py-3
+ ${
     compact
-      ? "border-b border-orange-500 rounded-none bg-transparent"
-      : "border border-white/10 focus:border-orange-500/50 rounded-xl"
+      ? "border-b border-orange-500 rounded-none bg-transparent "
+      : "bg-white/5 border border-white/10 focus:border-orange-500/50 rounded-xl"
   }`}
             />
 
@@ -206,7 +214,14 @@ const destinationCodeParam = searchParams.get("destinationCode");
 
           {/* TO */}
           <div className="relative">
-            <p className="text-xs text-gray-400 mb-2">
+            <p
+  className={`mb-2 ${
+    highlightLabels
+      ? "text-orange-500 text-lg "
+      : "text-xs text-gray-400"
+  }`}
+>
+
               To
             </p>
 
@@ -214,11 +229,11 @@ const destinationCodeParam = searchParams.get("destinationCode");
               value={truncateText(toCity, 22)}
               title={toCity}
               onChange={(e) => fetchToStations(e.target.value)}
-              placeholder="Enter station"
+              placeholder={placeholder}
               className={`w-full truncate outline-none text-white px-3 md:px-4 py-2.5 md:py-3
   ${
     compact
-      ? "border-b border-orange-500 rounded-none bg-transparent"
+      ? "border-b border-orange-500 rounded-none bg-transparent "
       : "bg-white/5 border border-white/10 focus:border-orange-500/50 rounded-xl"
   }`}
             />
